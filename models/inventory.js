@@ -7,7 +7,7 @@ const inventoryItemSchema = new Schema({ // this is the documnet schema IE the d
     category: String, 
     price: Number, 
     numInStock: Number, 
-    url: String
+    url: String,
 })
 
 const InventoryItems = mongoose.model('InventoryItems', inventoryItemSchema);

@@ -20,11 +20,14 @@ mongoose.connect(DBURI).then((result) => {
     console.log(error)
 })
 
+let dataBaseDownload = [];
 
-InventoryItems.find().then((result) => {
-    let dataBaseDownload = result
-    console.log(dataBaseDownload)
+function dataBaseDownloader() {
+    InventoryItems.find().then((result) => { // makees an initial copy of the database. 
+    dataBaseDownload = result
 }).catch((err) => {console.log(err)})
+}
+dataBaseDownloader() // makes a new instance of the database when called. 
 
 // app.get('/testAdd', (req, res) => { // this is testing the ability to add an item to the DB. CONFIRMED WORKING 
 //     const newItem = new InventoryItems({
@@ -39,24 +42,37 @@ InventoryItems.find().then((result) => {
 // })
 
 app.post('/addItem', (req, res) => {
-    // console.log(req.body)
     const newItem = new InventoryItems({
                 name: req.body.name,
                 description: req.body.description,
                 category: req.body.category,
                 price: req.body.price,
                 numInStock: req.body.numInStock,
-                url: req.body.numInStock
+                url: req.body.numInStock,
+                delButton: req.body.id
     })
+
     newItem.save()
+    dataBaseDownload.push(newItem)
     res.redirect('/')
 });
 app.get('/addItem', (req,res) => {
     res.render('addItem')
 });
+app.post('/index/:id', async (req,res) => {
+    console.log(req.params.id)
+      
+    await InventoryItems.deleteOne({_id: req.params.id}).then(() => {
+        InventoryItems.find().then((result) => { // makees an initial copy of the database. 
+            console.log(result)
+            dataBaseDownload = result
+            res.redirect('/')
+        })
+        })
+})
 
 app.get('/', (req, res) => { // home page
-    res.render('index')
+    res.render('index', {dataBaseDownload: dataBaseDownload})
 })
 app.use((req,res) => { // 404 error handler
     res.status(404).render('404')

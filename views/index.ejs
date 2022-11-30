@@ -15,10 +15,15 @@
     <button>Add New Item</button>
 </a>
 
-    
-
-
-
+    <% dataBaseDownload.forEach((element) => { %>  
+        <h3><%= element.name %></h3>
+        <h3><%= element.description %></h3>
+        <h3><%= element.category %></h3>
+        <h3><%= element.price %></h3>
+        <form action="/index/<%=element.id%>" method="POST">
+        <button type="submit" placeholder="Del" name="id">Del</button>
+        </form>
+        <% }) %> 
 
     </div>
 </body>
