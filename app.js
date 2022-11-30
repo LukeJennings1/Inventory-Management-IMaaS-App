@@ -24,22 +24,23 @@ let dataBaseDownload = [];
 
 function dataBaseDownloader() {
     InventoryItems.find().then((result) => { // makees an initial copy of the database. 
+    console.log(dataBaseDownload)
     dataBaseDownload = result
 }).catch((err) => {console.log(err)})
 }
 dataBaseDownloader() // makes a new instance of the database when called. 
 
-// app.get('/testAdd', (req, res) => { // this is testing the ability to add an item to the DB. CONFIRMED WORKING 
-//     const newItem = new InventoryItems({
-//         name: 'ToothPaste',
-//         description: 'its toothPaste',
-//         category: 'Medical',
-//         price: 1.50,
-//         numInStock: 64,
-//         url: "https://www.colgate.com/en-gb"
-//     })
-//     newItem.save()
-// })
+app.get('/testAdd', (req, res) => { // this is testing the ability to add an item to the DB. CONFIRMED WORKING 
+    const newItem = new InventoryItems({
+        name: 'ToothPaste',
+        description: 'its toothPaste',
+        category: 'Medical',
+        price: 1.50,
+        numInStock: 64,
+        url: "https://www.colgate.com/en-gb"
+    })
+    newItem.save()
+})
 
 app.post('/addItem', (req, res) => {
     const newItem = new InventoryItems({

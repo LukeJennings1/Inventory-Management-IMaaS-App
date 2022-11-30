@@ -6,24 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory management</title>
     <link rel = 'stylesheet' href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Edu+SA+Beginner:wght@700&family=Inconsolata:wght@300&family=Josefin+Sans&family=Kdam+Thmor+Pro&family=Oldenburg&family=Pacifico&family=Roboto:wght@900&family=Rubik:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="site-container">
 
         <h1 id = 'site-title'>Point East Clothing Inventory Management</h1>
-<a href="/addItem">
-    <button>Add New Item</button>
-</a>
 
-    <% dataBaseDownload.forEach((element) => { %>  
-        <h3><%= element.name %></h3>
-        <h3><%= element.description %></h3>
-        <h3><%= element.category %></h3>
-        <h3><%= element.price %></h3>
-        <form action="/index/<%=element.id%>" method="POST">
-        <button type="submit" placeholder="Del" name="id">Del</button>
-        </form>
-        <% }) %> 
+
+<div id = 'middle-site-container'>
+    <div class = 'middle-container' id = "navigation">
+    <div id = 'navigation-wrapper'>
+    <h1>Navigation</h1>
+        <button class = 'navigation-button'>dashboard</button>
+        <button class = 'navigation-button'>Categories</button>
+        <button class = 'navigation-button'>Products</button>
+        <a href="/addItem">
+        <button class = 'navigation-button'>Add New Item</button>
+        </a>
+        <button class = 'navigation-button'>Remove Inventory</button>
+    </div>
+
+
+       
+    </div>
+    <div class = 'middle-container' id = "dashboard">
+
+        <% dataBaseDownload.forEach((element) => { %>  
+            <h3><%= element.name %></h3>
+            <h3><%= element.description %></h3>
+            <h3><%= element.category %></h3>
+            <h3><%= element.price %></h3>
+            <form action="/index/<%=element.id%>" method="POST">
+            <button type="submit" placeholder="Del" name="id">Delete</button>
+            </form>
+            <% }) %> 
+
+    </div>
+</div>
+
 
     </div>
 </body>
