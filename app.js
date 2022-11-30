@@ -13,12 +13,18 @@ app.use(express.urlencoded()); // enables the use of the req.body;
 
 //connect to MongoDB database
 const DBURI = 'mongodb+srv://admin:password12345@projectcluster.pdzilih.mongodb.net/Inventory?retryWrites=true&w=majority'
-mongoose.connect(DBURI).then(() => {
+mongoose.connect(DBURI).then((result) => {
     console.log('dataBase connected')
     app.listen(3000); // connect to dataBase then listen for requests. 
 }).catch((error) => { // catch any errors
     console.log(error)
 })
+
+
+InventoryItems.find().then((result) => {
+    let dataBaseDownload = result
+    console.log(dataBaseDownload)
+}).catch((err) => {console.log(err)})
 
 // app.get('/testAdd', (req, res) => { // this is testing the ability to add an item to the DB. CONFIRMED WORKING 
 //     const newItem = new InventoryItems({
@@ -33,7 +39,16 @@ mongoose.connect(DBURI).then(() => {
 // })
 
 app.post('/addItem', (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
+    const newItem = new InventoryItems({
+                name: req.body.name,
+                description: req.body.description,
+                category: req.body.category,
+                price: req.body.price,
+                numInStock: req.body.numInStock,
+                url: req.body.numInStock
+    })
+    newItem.save()
     res.redirect('/')
 });
 app.get('/addItem', (req,res) => {
@@ -46,6 +61,5 @@ app.get('/', (req, res) => { // home page
 app.use((req,res) => { // 404 error handler
     res.status(404).render('404')
 })
-
 
 
